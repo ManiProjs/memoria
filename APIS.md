@@ -5,6 +5,7 @@
 Searchs in screenshots
 
 Params:
+
 - q (stands for query)
 Value:
 - The thing you wanna search. It uses OCR from Tesseract.
@@ -13,4 +14,6 @@ Value:
 
 Returns timelines
 
-## /
+## /snapshots
+
+Returns snapshots
