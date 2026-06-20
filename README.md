@@ -6,7 +6,7 @@ Search your past.
 
 Memoria is a second memory for you. It takes screenshots so you search for them with OCR
 
-Memoria is also a Microsoft's Windows Recall alternative for Windows, macOS and Linux.
+Memoria is also a Microsoft (Or in other words, Microslop)'s Windows Recall alternative for Windows, macOS and Linux.
 
 ### System Requirements
 
