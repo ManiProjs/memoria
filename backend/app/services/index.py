@@ -1,9 +1,10 @@
 import time
+from datetime import datetime, timedelta, timezone
 from app.services.capture import capture_screen
 from app.services.ocr import extract_text
 from app.osapis import get_active_app, get_window_title
 from app.db import get_engine
-from sqlmodel import Session
+from sqlmodel import Session, select
 from app.models import Snapshot
 from sqlalchemy import text as sql_text
 from hashlib import sha256
@@ -20,12 +21,45 @@ def file_hash(path: str) -> str:
     return h.hexdigest()
 
 
+
 last_hash = None
+last_cleanup_date = None
+
+
+def cleanup_old_snapshots(days: int = 30):
+    cutoff = datetime.now(timezone.utc) - timedelta(days=days)
+
+    with Session(get_engine()) as session:
+        old_snapshots = session.exec(
+            select(Snapshot).where(Snapshot.timestamp < cutoff)
+        ).all()
+
+        for snapshot in old_snapshots:
+            try:
+                Path(snapshot.image_path).unlink(missing_ok=True)
+            except Exception:
+                pass
+
+            session.exec(
+                sql_text("DELETE FROM snapshot_fts WHERE rowid = :id"),
+                {"id": snapshot.id},
+            )
+
+            session.delete(snapshot)
+
+        session.commit()
 
 
 def run_loop(interval: int = 10):
+    global last_cleanup_date
+
     while True:
         global last_hash
+        today = datetime.now().date()
+
+        if last_cleanup_date != today:
+            cleanup_old_snapshots(30)
+            last_cleanup_date = today
 
         path = capture_screen()
         current_hash = file_hash(path)
