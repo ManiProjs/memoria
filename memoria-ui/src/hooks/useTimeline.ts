@@ -16,7 +16,7 @@ export function useTimeline() {
 
   useEffect(() => {
     api
-      .get<Snapshot[]>("/timeline")
+      .get<Snapshot[]>("/timeline/")
       .then((res) => {
         setData(res.data);
         setError(null);

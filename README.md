@@ -23,6 +23,32 @@ Currently, you need to clone this repository, then `cd` to backend directory and
 uv run uvicorn app.main:app --reload --port 8009
 ```
 
-We don't have a GUI yet.
+For the frontend, you need the following:
+
+- [Node.js](https://nodejs.org)
+- [npm (which comes preinstalled with Node.js)](https://npmjs.com)
+`cd` into the `memoria-ui` directory.
+
+Then install the required packages for frontend.
+
+```shell
+npm install
+```
+
+Then,
+
+```shell
+npm run build
+```
+
+And finally,
+
+```shell
+npm run preview
+```
+
+Visit the app by going into [http://localhost:4173](http://localhost:4173).
+
+## API Guide
 
 For API guide, visit [APIS.md](./APIS.md)

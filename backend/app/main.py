@@ -34,8 +34,10 @@ app = FastAPI(title="Memoria", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
+    # If you want to use your own port, you must add it here.
     allow_origins=[
-        "http://localhost:5173",
+        "http://localhost:5173", # Dev server
+        "http://localhost:4173"  # `npm run preview`
     ],
     allow_credentials=True,
     allow_methods=["*"],
